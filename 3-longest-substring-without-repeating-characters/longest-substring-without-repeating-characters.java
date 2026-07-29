@@ -1,23 +1,22 @@
-import java.util.HashMap;
-
 class Solution {
     public int lengthOfLongestSubstring(String s) {
+        int[] lastIndex = new int[128];
 
-        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < 128; i++) {
+            lastIndex[i] = -1;
+        }
 
         int left = 0;
         int maxLength = 0;
 
         for (int right = 0; right < s.length(); right++) {
-
             char ch = s.charAt(right);
 
-            if (map.containsKey(ch)) {
-                left = Math.max(left, map.get(ch) + 1);
+            if (lastIndex[ch] >= left) {
+                left = lastIndex[ch] + 1;
             }
 
-            map.put(ch, right);
-
+            lastIndex[ch] = right;
             maxLength = Math.max(maxLength, right - left + 1);
         }
 
